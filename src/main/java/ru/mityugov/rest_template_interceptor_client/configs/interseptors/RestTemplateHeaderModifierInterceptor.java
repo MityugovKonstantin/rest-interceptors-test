@@ -26,10 +26,9 @@ public class RestTemplateHeaderModifierInterceptor implements ClientHttpRequestI
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         request.getHeaders().addAll(headers);
         logRequest(request, body);
-        ClientHttpResponse response = execution.execute(request, body);
-        logResponse(response);
-
-        return response;
+        ResponseWrapper responseWrapper = new ResponseWrapper(execution.execute(request, body));
+        logResponse(responseWrapper);
+        return responseWrapper;
     }
 
     private void logResponse(ClientHttpResponse response) throws IOException {
