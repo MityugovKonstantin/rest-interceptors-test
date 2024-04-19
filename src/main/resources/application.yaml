@@ -1,0 +1,4 @@
+api:
+  baseurl: "http://localhost:8081"
+  token: "xxxXxxxXxxx"
+  connectionTimeout: "5000"
