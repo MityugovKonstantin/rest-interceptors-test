@@ -1,5 +1,6 @@
 package ru.mityugov.rest_template_interceptor_client.configs.interseptors;
 
+import io.micrometer.common.lang.NonNullApi;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
@@ -9,6 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+@NonNullApi
 public class ResponseWrapper implements ClientHttpResponse {
 
     private final ClientHttpResponse response;
@@ -45,7 +47,7 @@ public class ResponseWrapper implements ClientHttpResponse {
 
     @Override
     public HttpStatus getStatusCode() throws IOException {
-        return HttpStatus.resolve(response.getStatusCode().value());
+        return HttpStatus.valueOf(response.getStatusCode().value());
     }
 
     @Override

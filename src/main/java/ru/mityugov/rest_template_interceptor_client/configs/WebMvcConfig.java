@@ -7,7 +7,6 @@ import ru.mityugov.rest_template_interceptor_client.configs.interseptors.Request
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new RequestInterceptor()).addPathPatterns("/**");

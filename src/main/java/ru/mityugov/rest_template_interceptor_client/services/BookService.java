@@ -9,10 +9,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import ru.mityugov.rest_template_interceptor_client.exceptions.ServiceException;
 import ru.mityugov.rest_template_interceptor_client.models.Book;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,17 +23,18 @@ public class BookService {
 
     public List<Book> getAllBook() {
         final String url = "/book";
-        HttpEntity entity = new HttpEntity("", new HttpHeaders());
-        ResponseEntity<List<Book>> res = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<>() {});
-        log.info("response = " + res.getBody());
-        return res.getBody();
+        HttpEntity<String> entity = new HttpEntity<>("", new HttpHeaders());
+        ResponseEntity<List<Book>> response = restTemplate.exchange(
+                url, HttpMethod.GET, entity, new ParameterizedTypeReference<>() {}
+        );
+        log.info("Books (in BookService): " + response.getBody());
+        return response.getBody();
     }
 
     public Book getBookById(long id) {
         final String url = "/book/{id}";
-        HttpEntity httpEntity = new HttpEntity("", new HttpHeaders());
-        ResponseEntity<Book> res = restTemplate.getForEntity(url, Book.class, Map.of("id", 1));
-        log.info("response = " + res.getBody());
-        return res.getBody();
+        ResponseEntity<Book> response = restTemplate.getForEntity(url, Book.class, Map.of("id", 1));
+        log.info("Book (in BookService): " + response.getBody());
+        return response.getBody();
     }
 }

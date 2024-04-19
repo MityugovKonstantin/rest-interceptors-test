@@ -20,9 +20,6 @@ public class RestTemplateConfig {
     @Value("${api.token}") // Загрузка токена из application.properties
     private String token;
 
-    @Value("${api.connectionTimeout}")
-    private int connectionTimeout;
-
     @Bean
     public RestTemplate restTemplate() {
         // Создаем RestTemplate

@@ -1,18 +1,23 @@
 package ru.mityugov.rest_template_interceptor_client.configs.interseptors;
 
+import io.micrometer.common.lang.NonNullApi;
+import io.micrometer.common.lang.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 @Slf4j
+@NonNullApi
 public class RequestInterceptor implements HandlerInterceptor {
 
     @Override
@@ -25,7 +30,7 @@ public class RequestInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response,
-                           Object handler, ModelAndView modelAndView) throws IOException {
+                           Object handler, @Nullable ModelAndView modelAndView) throws IOException {
         logRequest(request);
         logResponse(response);
     }
@@ -47,9 +52,7 @@ public class RequestInterceptor implements HandlerInterceptor {
 
     private List<String> getAllResponseHeaders(HttpServletResponse response) {
         List<String> headersName = new ArrayList<>();
-        Iterator<String> headerNames = response.getHeaderNames().iterator();
-        while (headerNames.hasNext()) {
-            String headerName = headerNames.next();
+        for (String headerName : response.getHeaderNames()) {
             headersName.add("Header name: " + headerName + " Header value: " + response.getHeader(headerName));
         }
         return headersName;
